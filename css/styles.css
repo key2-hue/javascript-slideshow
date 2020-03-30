@@ -42,8 +42,9 @@ nav li:hover {
   background: #f8f8f8;
 }
 
-#play {
+#stop {
   width: 140px;
+  display: inline-block;
 }
 
 #next, #prev {

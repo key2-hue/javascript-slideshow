@@ -58,10 +58,6 @@
 
   let check = 0;
   function playSlideshow() {
-    if(currentIndex === 0 && check === 1) {
-      stop.disabled = false;
-    }
-    check = 1;
     timeoutId = setTimeout(() => {
       if(currentIndex === images.length - 1) {
         next.click();
@@ -73,18 +69,38 @@
     },1000);
   }
 
+  let state;
+
+  function stopState() {
+    if(currentIndex === 0 && check === 1) {
+      stop.disabled = false;
+    }
+    check = 1;
+    state = setTimeout(() => {
+      stopState();
+    },1000)
+  }
+
   
 
   let isPlaying = false;
 
-  const stop = document.getElementById('start');
+  const stop = document.getElementById('stop');
   stop.addEventListener('click', () => {
-    stop.disabled = true;
+    
     
     if(isPlaying === false) {
       playSlideshow();
     } else {
       clearTimeout(timeoutId);
+      clearTimeout(state);
+    }
+
+    if(check === 0) {
+      stop.disabled = true;
+      stopState();
+    } else {
+      check = 0
     }
     isPlaying = !isPlaying;
   });
