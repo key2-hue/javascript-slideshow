@@ -8,7 +8,7 @@ main {
   grid-template:
     "areaA areaB" 100px
     "areaA areaC" 200px
-    / 330px 1fr;
+    / 330px calc(100vw - 330px);
 }
 
 #main {
@@ -21,9 +21,56 @@ main {
 
 main > nav {
   grid-area: areaB;
+  position: relative;
+  top: 30px;
 }
 
-main > ul {
+
+#button {
+  display: flex;
+  list-style: none;
+  justify-content: space-around;
+}
+
+#prev, #next {
+  border: 1px solid gray;
+  width: 100px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  background: skyblue;
+}
+
+#prev:hover, #next:hover {
+  opacity: 0.7;
+}
+
+#stop {
+  width: 100px;
+  display: inline-block;
+}
+
+
+
+.smallImage {
   grid-area: areaC;
+  display: flex;
+  flex-wrap:wrap;
+}
+
+.image {
+  list-style: none;
+  opacity: 0.4;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.image.current {
+  opacity: 1;
+}
+
+.image > img {
+  height: 50px;
+  width: 50px;
 }
 

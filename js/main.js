@@ -23,6 +23,7 @@
     img.src = image;
 
     const li = document.createElement('li');
+    li.classList.add('image');
     if(index === currentIndex) {
       li.classList.add('current');
     }
