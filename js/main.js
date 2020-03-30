@@ -13,6 +13,8 @@
   ];
   let currentIndex = 0;
 
+  
+
   const mainImage = document.getElementById('main');
   mainImage.src = images[currentIndex];
 
@@ -36,36 +38,34 @@
     document.querySelector('.thumbnails').appendChild(li);
   });
 
-  const next = document.getElementById('next');
-  next.addEventListener('click', () => {
-    let target = currentIndex + 1;
-    if(target === images.length) {
-      target = 0;
-    }
-    document.querySelectorAll('.thumbnails > li')[target].click();
-  });
-
-  const prev = document.getElementById('prev');
-  prev.addEventListener('click', () => {
-    let target = currentIndex - 1;
-    if(target < 0) {
-      target = images.length - 1;
-    }
-    document.querySelectorAll('.thumbnails > li')[target].click();
-  });
+  
 
   let timeoutId;
 
   let check = 0;
   function playSlideshow() {
+    let target = currentIndex + 1;
+    if(target === images.length) {
+      target = 0;
+    }
+    document.querySelectorAll('.thumbnails > li')[target].click();
     timeoutId = setTimeout(() => {
       if(currentIndex === images.length - 1) {
-        next.click();
         playSlideshow();
       } else {
-        next.click();
         playSlideshow();
       }
+    },1000);
+  }
+
+  function backSlideshow() {
+    let target = currentIndex - 1;
+    if(target < 0) {
+      target = images.length - 1;
+    }
+    document.querySelectorAll('.thumbnails > li')[target].click();
+    timeoutId = setTimeout(() => {
+      backSlideshow();
     },1000);
   }
 
@@ -81,9 +81,27 @@
     },1000)
   }
 
-  
 
   let isPlaying = false;
+
+  const next = document.getElementById('next');
+  next.addEventListener('click', () => {
+    isPlaying = true;
+    playSlideshow();
+    stop.disabled = true;
+    stopState();
+  });
+
+  const prev = document.getElementById('prev');
+  prev.addEventListener('click', () => {
+    isPlaying = true;
+    backSlideshow();
+    stop.disabled = true;
+    stopState();
+  });
+  
+
+  
 
   const stop = document.getElementById('stop');
   stop.addEventListener('click', () => {
@@ -95,13 +113,8 @@
       clearTimeout(timeoutId);
       clearTimeout(state);
     }
-
-    if(check === 0) {
-      stop.disabled = true;
-      stopState();
-    } else {
-      check = 0
-    }
-    isPlaying = !isPlaying;
+    check = 0;
+    
+    isPlaying = false;
   });
 }
