@@ -2,14 +2,14 @@
 
 {
   const images = [
-    'img/pic00.png',
-    'img/pic01.png',
-    'img/pic02.png',
-    'img/pic03.png',
-    'img/pic04.png',
-    'img/pic05.png',
-    'img/pic06.png',
-    'img/pic07.png',
+    'https://www.sony.jp/ichigan/a-universe/assets/img/entry_detail/321/mv_01.jpg',
+    'https://www.tobezoo.com/animals/img/mn03.jpg',
+    'https://s3-ap-northeast-1.amazonaws.com/newsphere.jp/wp-content/uploads/2019/11/26183147/1_shutterstock_529567036.jpg',
+    'https://s.skygate.co.jp/pc/sa_city/oversea/images/ca/ca_img_k27_01.jpg',
+    'https://www.nakatsuvet.com/wp-content/uploads/2019/04/image-3840x600.jpg',
+    'https://www.pet7.com/wp-content/uploads/sp_image2.jpg',
+    'https://ichef.bbci.co.uk/news/410/cpsprodpb/18430/production/_110867399_a9410d19-7a03-4179-95f1-76e2eb5b32cd.jpg',
+    'https://cdn.mainichi.jp/vol1/2020/01/08/20200108k0000m040014000p/8.jpg?1',
   ];
   let currentIndex = 0;
 
@@ -28,14 +28,14 @@
     }
     li.addEventListener('click', () => {
       mainImage.src = image;
-      const thumbnails = document.querySelectorAll('.thumbnails > li');
+      const thumbnails = document.querySelectorAll('.smallImage > li');
       thumbnails[currentIndex].classList.remove('current');
       currentIndex = index;
       thumbnails[currentIndex].classList.add('current');
     });
 
     li.appendChild(img);
-    document.querySelector('.thumbnails').appendChild(li);
+    document.querySelector('.smallImage').appendChild(li);
   });
 
   
@@ -48,13 +48,9 @@
     if(target === images.length) {
       target = 0;
     }
-    document.querySelectorAll('.thumbnails > li')[target].click();
+    document.querySelectorAll('.smallImage > li')[target].click();
     timeoutId = setTimeout(() => {
-      if(currentIndex === images.length - 1) {
-        playSlideshow();
-      } else {
-        playSlideshow();
-      }
+      playSlideshow();
     },1000);
   }
 
@@ -63,7 +59,7 @@
     if(target < 0) {
       target = images.length - 1;
     }
-    document.querySelectorAll('.thumbnails > li')[target].click();
+    document.querySelectorAll('.smallImage > li')[target].click();
     timeoutId = setTimeout(() => {
       backSlideshow();
     },1000);
@@ -86,18 +82,22 @@
 
   const next = document.getElementById('next');
   next.addEventListener('click', () => {
-    isPlaying = true;
-    playSlideshow();
-    stop.disabled = true;
-    stopState();
+    if(isPlaying === false) {
+      isPlaying = true;
+      playSlideshow();
+      stop.disabled = true;
+      stopState();
+    }
   });
 
   const prev = document.getElementById('prev');
   prev.addEventListener('click', () => {
-    isPlaying = true;
-    backSlideshow();
-    stop.disabled = true;
-    stopState();
+    if(isPlaying === false) {
+      isPlaying = true;
+      backSlideshow();
+      stop.disabled = true;
+      stopState();
+    }
   });
   
 
@@ -105,16 +105,9 @@
 
   const stop = document.getElementById('stop');
   stop.addEventListener('click', () => {
-    
-    
-    if(isPlaying === false) {
-      playSlideshow();
-    } else {
-      clearTimeout(timeoutId);
-      clearTimeout(state);
-    }
+    clearTimeout(timeoutId);
+    clearTimeout(state);
     check = 0;
-    
     isPlaying = false;
   });
 }
